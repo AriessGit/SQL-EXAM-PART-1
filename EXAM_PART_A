@@ -1,0 +1,19 @@
+1. A - WHERE is used to filter rows before grouping the data, while...
+
+2. D - There is no difference between right join and left join - they are identical and interchangeable
+
+3. B - It filters and returns only unique values, eliminating duplicates from each column
+
+4. B - LIMIT
+
+5. A - it creates a relationship between tables to ...
+
+6. B - The records in the child table are deleted..
+
+7. D - Counts only non-NULL values
+
+8. A - Sets a default..
+
+9. D - FULL AUTER JOIN
+
+10. A - Prevents invalid..
