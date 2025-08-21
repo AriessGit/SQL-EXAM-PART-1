@@ -1,6 +1,6 @@
 1. A - WHERE is used to filter rows before grouping the data, while...
 
-2. D - There is no difference between right join and left join - they are identical and interchangeable
+2. A - LEFT JOIN returns all records..
 
 3. B - It filters and returns only unique values, eliminating duplicates from each column
 
