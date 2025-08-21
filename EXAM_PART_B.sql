@@ -1,28 +1,57 @@
-CREATE TABLE IF NOT EXISTS television_store(
-id SERIAL PRIMARY KEY, 
-catalog_number INT UNIQUE NOT NULL,
-brand_name VARCHAR(20) NOT NULL,
-model VARCHAR(50) NOT NULL,
-screen_size INT NOT NULL CHECK (screen_size > 0),
-resolution VARCHAR(20) NOT NULL,
-price DECIMAL(7,2) NOT NULL CHECK (price > 0),
-stock_quantity INT DEFAULT 0 CHECK (stock_quantity >= 0),
-release_year INT NOT NULL,
-smart_tv VARCHAR(3) NOT NULL,
-os VARCHAR(20) 
-		CHECK((smart_tv = 'yes' AND os IS NOT NULL) 
-		OR (smart_tv = 'no' AND os IS NULL)),
-panel_type VARCHAR(20) NOT NULL 
-
+CREATE TABLE brand (
+    brand_id SERIAL PRIMARY KEY,
+    brand_name VARCHAR(20) UNIQUE NOT NULL
 );
 
--- id - 'primary key' was inserted for a future use of table with anothr tables if neccsery.
+CREATE TABLE resolution (
+    resolution_id SERIAL PRIMARY KEY,
+    resolution_name VARCHAR(20) UNIQUE NOT NULL
+);
 
-INSERT INTO television_store 
-(id, catalog_number,brand_name,model,screen_size,resolution,price,stock_quantity,release_year,smart_tv,os,panel_type)
-VALUES 
-(1, 10001, 'LG', 'GXKS2', 55, '8K', 4250, 8, 2024, 'yes', 'LG_OS', 'OLED'),
-(2, 10002, 'SAMSUNG', 'Q80T5', 65, '4K', 3200, 12, 2023, 'yes', 'SAMS_OS', 'QLED'),
-(3, 10003, 'SONY', 'TDGH987JH', 50, 'Full_HD', 1800, 20, 2022, 'no', NULL, 'LED');
+CREATE TABLE panel_type (
+    panel_id SERIAL PRIMARY KEY,
+    panel_name VARCHAR(20) UNIQUE NOT NULL
+);
 
 
+CREATE TABLE IF NOT EXISTS television (
+    tv_id SERIAL PRIMARY KEY,
+    catalog_number VARCHAR(50) NOT NULL,
+    brand_id INT,
+    FOREIGN KEY (brand_id) REFERENCES brand(brand_id),
+    model VARCHAR(50) NOT NULL,
+    screen_size INT NOT NULL CHECK (screen_size > 0),
+    resolution_id INT,
+    FOREIGN KEY (resolution_id) REFERENCES resolution(resolution_id),
+    price DECIMAL(7,2) NOT NULL CHECK (price > 0),
+    stock_quantity INT DEFAULT 0 CHECK (stock_quantity >= 0),
+    release_year INT NOT NULL,
+    smart_tv VARCHAR(3) NOT NULL,
+    os VARCHAR(30) 
+    CHECK((smart_tv = 'yes' AND os IS NOT NULL)
+       	 OR (smart_tv = 'no' AND os IS NULL)),
+    panel_id INT,
+    FOREIGN KEY (panel_id) REFERENCES panel_type(panel_id)
+   	
+    );
+
+INSERT INTO brand (brand_name) VALUES
+('Samsung'),
+('LG'),
+('Sony');
+
+INSERT INTO resolution (resolution_name) VALUES
+('4K'),
+('8K'),
+('FULL HD');
+
+INSERT INTO panel_type (panel_name) VALUES
+('OLED'),
+('QLED'), 
+('LED');
+
+INSERT INTO television (tv_id, catalog_number, brand_id, model, screen_size, resolution_id, price, stock_quantity, release_year, smart_tv, os, panel_id)
+VALUES
+(1, '101A', 1, 'X45d', 55, 2, 2500, 20, 2023, 'yes', 'SAMI-1', 2),
+(2, '101B', 2, 'x23f', 60, 1, 4700, 5, 2025, 'yes', 'SOME_OP_SYS', 1),
+(3, '101C', 3, 'v87d', 22, 3, 700, 1, 2008, 'no', NULL, 3);
